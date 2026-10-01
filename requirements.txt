@@ -1,0 +1,6 @@
+ultralytics
+opencv-python
+flask
+requests
+firebase-admin
+reportlab

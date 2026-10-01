@@ -1,0 +1,872 @@
+[
+  {
+    "id": "ps_tab",
+    "type": "tab",
+    "label": "PowerSense",
+    "disabled": false,
+    "info": "PowerSense: ESP32 bridge + dashboard.\nESP32 IP aur Python server ka address 'Settings' node me hai.",
+    "env": []
+  },
+  {
+    "id": "ps_ui_tab",
+    "type": "ui_tab",
+    "name": "Dashboard",
+    "icon": "dashboard",
+    "order": 1,
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "ps_g_dash",
+    "type": "ui_group",
+    "name": "Dashboard",
+    "tab": "ps_ui_tab",
+    "order": 1,
+    "disp": false,
+    "width": "6",
+    "collapse": false,
+    "className": "ps-page"
+  },
+  {
+    "id": "ps_ui_charts_tab",
+    "type": "ui_tab",
+    "name": "Charts",
+    "icon": "fa-line-chart",
+    "order": 2,
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "ps_g_charts",
+    "type": "ui_group",
+    "name": "Charts",
+    "tab": "ps_ui_charts_tab",
+    "order": 1,
+    "disp": false,
+    "width": "6",
+    "collapse": false,
+    "className": "ps-page"
+  },
+  {
+    "id": "ps_ui_report_tab",
+    "type": "ui_tab",
+    "name": "Monthly Report",
+    "icon": "fa-file-text-o",
+    "order": 3,
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "ps_g_report",
+    "type": "ui_group",
+    "name": "Monthly Report",
+    "tab": "ps_ui_report_tab",
+    "order": 1,
+    "disp": false,
+    "width": "6",
+    "collapse": false,
+    "className": "ps-page"
+  },
+  {
+    "id": "ps_ui_settings_tab",
+    "type": "ui_tab",
+    "name": "Settings",
+    "icon": "fa-sliders",
+    "order": 4,
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "ps_g_settings",
+    "type": "ui_group",
+    "name": "Settings",
+    "tab": "ps_ui_settings_tab",
+    "order": 1,
+    "disp": false,
+    "width": "6",
+    "collapse": false,
+    "className": "ps-page"
+  },
+  {
+    "id": "ps_c_settings",
+    "type": "comment",
+    "name": "Settings: ESP32 IP aur Python server",
+    "info": "",
+    "x": 160,
+    "y": 40,
+    "wires": [],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_start",
+    "type": "inject",
+    "name": "On start",
+    "props": [],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "0.1",
+    "topic": "",
+    "x": 130,
+    "y": 80,
+    "wires": [
+      [
+        "ps_settings"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_settings",
+    "type": "change",
+    "name": "Settings",
+    "rules": [
+      {
+        "t": "set",
+        "p": "esp_ip",
+        "pt": "flow",
+        "to": "10.184.245.188",
+        "tot": "str"
+      },
+      {
+        "t": "set",
+        "p": "api",
+        "pt": "flow",
+        "to": "http://127.0.0.1:5000",
+        "tot": "str"
+      },
+      {
+        "t": "set",
+        "p": "range_h",
+        "pt": "flow",
+        "to": "6",
+        "tot": "num"
+      }
+    ],
+    "x": 300,
+    "y": 80,
+    "wires": [
+      []
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_theme",
+    "type": "ui_template",
+    "group": "",
+    "name": "Theme (CSS + dark mode)",
+    "order": 0,
+    "width": 0,
+    "height": 0,
+    "format": "<style>\n:root {\n  --ps-bg: #eef1f4; --ps-card: #ffffff; --ps-soft: #f7f9fb; --ps-border: #dde2e8; --ps-line: #edf0f3;\n  --ps-text: #1f2a37; --ps-muted: #6b7280; --ps-accent: #1f6feb; --ps-accent-text: #ffffff;\n  --ps-green: #15803d; --ps-green-bg: #dcfce7; --ps-amber: #b45309; --ps-red: #dc2626;\n  --ps-chip-off: #eef1f4; --ps-toolbar: #1f2a37;\n}\nbody.ps-dark {\n  --ps-bg: #0e131a; --ps-card: #161d27; --ps-soft: #1b2430; --ps-border: #263141; --ps-line: #212b38;\n  --ps-text: #e3e8ef; --ps-muted: #94a3b8; --ps-accent: #3b82f6;\n  --ps-green: #4ade80; --ps-green-bg: rgba(34,197,94,.16); --ps-amber: #fbbf24; --ps-red: #f87171;\n  --ps-chip-off: #222c39; --ps-toolbar: #0b1016;\n}\nbody, #Content, md-content, .masonry-container { background: var(--ps-bg) !important; color: var(--ps-text); }\nmd-toolbar, .md-toolbar-tools { background-color: var(--ps-toolbar) !important; color: #fff !important; }\nbody.ps-dark md-sidenav, body.ps-dark md-sidenav md-list, body.ps-dark md-sidenav md-list-item,\nbody.ps-dark md-sidenav .md-button { background: var(--ps-card) !important; color: var(--ps-text) !important; }\nbody.ps-dark md-sidenav md-list-item.selected, body.ps-dark md-sidenav md-list-item:hover { background: var(--ps-soft) !important; }\n\n/* Group ko poori width do (Node-RED ka fixed-width layout hatao) */\nui-card-panel:has(> .ps-page) { position: relative !important; left: 0 !important; top: 0 !important;\n  width: 100% !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }\n.ps-page, .ps-page .nr-dashboard-cardcontainer, .ps-page md-card, .ps-page .nr-dashboard-template {\n  width: 100% !important; height: auto !important; position: relative !important; left: 0 !important; top: 0 !important;\n  background: transparent !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; overflow: visible !important; }\n.ps-page md-card { margin: 0 !important; }\n\n/* Page layout */\n.ps-wrap { width: 100%; box-sizing: border-box; max-width: 1760px; margin: 0 auto; padding: 14px 18px 28px; color: var(--ps-text); font-size: 14px; }\n.ps-grid { display: grid; gap: 14px; margin-top: 14px; }\n.ps-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }\n.ps-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }\n.ps-main { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: stretch; }\n.ps-stack > .ps-card:last-child { flex: 1; display: flex; flex-direction: column; }\n.ps-stack > .ps-card:last-child .ps-chips { margin-top: auto; }\n.ps-wide-left { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }\n.ps-stack { display: flex; flex-direction: column; gap: 14px; min-width: 0; }\n@media (max-width: 1100px) { .ps-main, .ps-wide-left, .ps-cols-3 { grid-template-columns: minmax(0, 1fr); } }\n@media (max-width: 760px) { .ps-cols-2 { grid-template-columns: minmax(0, 1fr); } }\n\n.ps-card { background: var(--ps-card); border: 1px solid var(--ps-border); border-radius: 8px; padding: 14px 16px; min-width: 0; }\n.ps-card-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 12px; }\n.ps-card-h > span:first-child { font-weight: 600; font-size: 15px; }\n.ps-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }\n.ps-head h2 { margin: 0; font-size: 18px; font-weight: 600; margin-right: auto; background: transparent !important; color: var(--ps-text) !important; }\n.ps-muted { color: var(--ps-muted); font-size: 12px; }\n.ps-green { color: var(--ps-green) !important; } .ps-grey { color: var(--ps-muted) !important; } .ps-amber { color: var(--ps-amber) !important; }\n.ps-banner { background: rgba(245,158,11,.12); border: 1px solid #f59e0b; color: var(--ps-amber); padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; }\n\n/* KPI tiles */\n.ps-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }\n.ps-kpi { background: var(--ps-card); border: 1px solid var(--ps-border); border-radius: 8px; padding: 12px 16px; min-width: 0; }\n.ps-kpi .lbl { font-size: 12px; color: var(--ps-muted); }\n.ps-kpi .lbl i { width: 16px; }\n.ps-kpi .val { font-size: 26px; font-weight: 600; margin: 4px 0 2px; line-height: 1.2; white-space: nowrap; }\n.ps-kpi .val small { font-size: 14px; font-weight: 500; color: var(--ps-muted); }\n.ps-kpi .sub { font-size: 12px; color: var(--ps-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n\n/* camera */\n.ps-cam { background: #0b0f14; border-radius: 6px; height: 392px; display: flex; align-items: center; justify-content: center; overflow: hidden; }\n.ps-cam img { width: 100%; height: 100%; object-fit: contain; color: #94a3b8; }\n\n/* appliances */\n.ps-device { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--ps-line); }\n.ps-device:last-child { border-bottom: 0; padding-bottom: 0; }\n.ps-device .info { flex: 1; min-width: 0; }\n.ps-device .name { font-weight: 600; font-size: 15px; }\n.ps-state { font-size: 12px; font-weight: 600; padding: 3px 0; width: 44px; text-align: center; border-radius: 4px; flex-shrink: 0; display: inline-block; }\n.ps-state.on { background: var(--ps-green-bg); color: var(--ps-green); } .ps-state.off { background: var(--ps-chip-off); color: var(--ps-muted); }\n.ps-seg { display: inline-flex; border: 1px solid var(--ps-border); border-radius: 6px; overflow: hidden; flex-shrink: 0; }\n.ps-seg button { border: 0; border-right: 1px solid var(--ps-border); background: var(--ps-card); color: var(--ps-text);\n  padding: 6px 12px; font: inherit; font-size: 13px; cursor: pointer; margin: 0; min-width: 0; line-height: 1.3; }\n.ps-seg button:last-child { border-right: 0; }\n.ps-seg button:hover { background: var(--ps-soft); }\n.ps-seg button.active { background: var(--ps-accent); color: var(--ps-accent-text); }\n\n/* usage bars */\n.ps-usage { margin-bottom: 12px; }\n.ps-usage-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }\n.ps-bar { height: 8px; background: var(--ps-chip-off); border-radius: 4px; overflow: hidden; }\n.ps-bar > div { height: 100%; border-radius: 4px; }\n.ps-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 7px; vertical-align: -1px; }\n\n/* status chips */\n.ps-chips { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; font-size: 13px; padding-top: 12px; border-top: 1px solid var(--ps-line); }\n.ps-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; background: var(--ps-muted); }\n.ps-dot.ok { background: #16a34a; } .ps-dot.bad { background: var(--ps-red); }\n.ps-chips .right { margin-left: auto; color: var(--ps-muted); font-size: 12px; }\n\n/* charts */\n.ps-chart { position: relative; height: 280px; }\n.ps-chart.tall { height: 330px; } .ps-chart.short { height: 220px; }\n.ps-legend { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }\n.ps-legend td { padding: 6px 2px; border-bottom: 1px solid var(--ps-line); }\n.ps-legend td.num { text-align: right; font-variant-numeric: tabular-nums; }\n\n/* tables */\n.ps-table { width: 100%; border-collapse: collapse; font-size: 13px; }\n.ps-table th { text-align: right; color: var(--ps-muted); font-weight: 600; padding: 8px; border-bottom: 2px solid var(--ps-border); position: sticky; top: 0; background: var(--ps-card); }\n.ps-table td { text-align: right; padding: 8px; border-bottom: 1px solid var(--ps-line); font-variant-numeric: tabular-nums; }\n.ps-table th:first-child, .ps-table td:first-child { text-align: left; }\n.ps-table tr.total td { font-weight: 600; border-top: 2px solid var(--ps-border); }\n.ps-kv { width: 100%; border-collapse: collapse; }\n.ps-kv td { padding: 9px 2px; border-bottom: 1px solid var(--ps-line); }\n.ps-kv tr:last-child td { border-bottom: 0; }\n.ps-kv td:last-child { text-align: right; font-weight: 500; }\n\n/* form controls */\n.ps-select, .ps-input { background: var(--ps-card); color: var(--ps-text); border: 1px solid var(--ps-border); border-radius: 6px;\n  padding: 7px 10px; font: inherit; font-size: 14px; }\n.ps-input { width: 80px; text-align: center; }\n.ps-btn { display: inline-block; background: var(--ps-accent); color: var(--ps-accent-text) !important; border: 0; text-decoration: none;\n  padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }\n.ps-btn.light { background: var(--ps-card); color: var(--ps-text) !important; border: 1px solid var(--ps-border); }\n.ps-btn:hover { filter: brightness(1.08); }\n.ps-theme-btn { margin-left: auto; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35);\n  border-radius: 6px; padding: 5px 12px; font: inherit; font-size: 13px; cursor: pointer; }\n.ps-theme-btn:hover { background: rgba(255,255,255,.1); }\n</style>\n<script>\n(function () {\n    var PS = window.PS = window.PS || {};\n    PS.devColors = {light: \"#4c78a8\", lamp: \"#f58518\", fan: \"#54a24b\"};\n    PS.isDark = function () { return document.body.classList.contains(\"ps-dark\"); };\n    PS.charts = [];\n\n    // Chart.js (dashboard ke saath aata hai) ke colors theme ke hisaab se\n    PS.style = function (chart) {\n        var dark = PS.isDark(), text = dark ? \"#a7b2c2\" : \"#5b6573\", grid = dark ? \"rgba(148,163,184,.14)\" : \"rgba(15,23,42,.07)\";\n        var o = chart.options;\n        if (o.legend && o.legend.labels) o.legend.labels.fontColor = text;\n        if (o.scales) {\n            (o.scales.xAxes || []).concat(o.scales.yAxes || []).forEach(function (a) {\n                a.ticks = a.ticks || {}; a.gridLines = a.gridLines || {};\n                a.ticks.fontColor = text; a.gridLines.color = grid; a.gridLines.zeroLineColor = grid;\n            });\n        }\n        if (chart.config.type === \"doughnut\") {\n            chart.data.datasets.forEach(function (d) { d.borderColor = dark ? \"#161d27\" : \"#ffffff\"; });\n        }\n        chart.update(0);\n    };\n    PS.make = function (canvas, config) {\n        var o = config.options = config.options || {};\n        o.responsive = true; o.maintainAspectRatio = false; o.animation = {duration: 0};\n        o.legend = o.legend || {display: false};\n        var chart = new Chart(canvas.getContext(\"2d\"), config);\n        PS.charts.push(chart);\n        PS.style(chart);\n        return chart;\n    };\n    PS.forget = function (chart) {\n        PS.charts = PS.charts.filter(function (c) { return c !== chart; });\n        chart.destroy();\n    };\n    PS.timeAxis = function (min, max) {\n        return {type: \"time\", time: {tooltipFormat: \"DD MMM, HH:mm\", displayFormats: {minute: \"HH:mm\", hour: \"HH:mm\"}},\n                ticks: {min: min, max: max, maxTicksLimit: 9, autoSkip: true, maxRotation: 0}};\n    };\n\n    PS.setTheme = function (mode) {\n        try { localStorage.setItem(\"ps-theme\", mode); } catch (e) {}\n        document.body.classList.toggle(\"ps-dark\", mode === \"dark\");\n        var b = document.querySelector(\".ps-theme-btn\");\n        if (b) b.innerHTML = PS.isDark() ? '<i class=\"fa fa-sun-o\"></i> Light' : '<i class=\"fa fa-moon-o\"></i> Dark';\n        PS.charts.forEach(PS.style);\n        window.dispatchEvent(new Event(\"ps-theme\"));\n    };\n\n    function addToolbarButton() {\n        var bar = document.querySelector(\"md-toolbar .md-toolbar-tools\");\n        if (!bar || bar.querySelector(\".ps-theme-btn\")) return;\n        var b = document.createElement(\"button\");\n        b.className = \"ps-theme-btn\";\n        b.title = \"Switch light / dark mode\";\n        b.onclick = function () { PS.setTheme(PS.isDark() ? \"light\" : \"dark\"); };\n        bar.appendChild(b);\n        PS.setTheme(PS.isDark() ? \"dark\" : \"light\");\n    }\n    function start() {\n        if (!document.body) return setTimeout(start, 30);\n        var saved = null;\n        try { saved = localStorage.getItem(\"ps-theme\"); } catch (e) {}\n        var dark = saved ? saved === \"dark\" : (window.matchMedia && matchMedia(\"(prefers-color-scheme: dark)\").matches);\n        document.body.classList.toggle(\"ps-dark\", !!dark);\n        document.title = \"PowerSense\";\n        addToolbarButton();\n        setInterval(addToolbarButton, 1000);\n    }\n    start();\n})();\n</script>",
+    "storeOutMessages": false,
+    "fwdInMessages": false,
+    "resendOnRefresh": true,
+    "templateScope": "global",
+    "className": "",
+    "x": 520,
+    "y": 80,
+    "wires": [
+      []
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_c_bridge",
+    "type": "comment",
+    "name": "Python (main.py) -> ESP32 bridge",
+    "info": "",
+    "x": 170,
+    "y": 140,
+    "wires": [],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_ctrl_in",
+    "type": "http in",
+    "name": "",
+    "url": "/ai-control",
+    "method": "get",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 130,
+    "y": 180,
+    "wires": [
+      [
+        "ps_ctrl_url"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_ctrl_url",
+    "type": "function",
+    "name": "Build ESP32 URL",
+    "func": "// state = /LIGHT=ON, /LAMP=OFF, /FAN=ON, /ALL=OFF\nconst state = String(msg.req.query.state || \"\");\nif (!/^\\/(ALL|LIGHT|LAMP|FAN)=(ON|OFF)$/.test(state)) {\n    msg.statusCode = 400;\n    msg.payload = \"Invalid state\";\n    return [null, msg];\n}\nmsg.url = \"http://\" + flow.get(\"esp_ip\") + state;\nmsg.method = \"GET\";\nmsg.requestTimeout = 1500;\nmsg.payload = \"\";\nnode.status({text: state});\nreturn [msg, null];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 330,
+    "y": 180,
+    "wires": [
+      [
+        "ps_ctrl_req"
+      ],
+      [
+        "ps_ctrl_res"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_ctrl_req",
+    "type": "http request",
+    "name": "ESP32 command",
+    "method": "use",
+    "ret": "txt",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 540,
+    "y": 160,
+    "wires": [
+      [
+        "ps_ctrl_check"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_ctrl_check",
+    "type": "function",
+    "name": "Error -> 502",
+    "func": "if (typeof msg.statusCode !== \"number\" || msg.statusCode >= 400) {\n    msg.statusCode = 502;\n}\ndelete msg.headers;\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 730,
+    "y": 160,
+    "wires": [
+      [
+        "ps_ctrl_res"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_ctrl_res",
+    "type": "http response",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 910,
+    "y": 180,
+    "wires": [],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_stat_in",
+    "type": "http in",
+    "name": "",
+    "url": "/sensor-status",
+    "method": "get",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 140,
+    "y": 240,
+    "wires": [
+      [
+        "ps_stat_url"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_stat_url",
+    "type": "function",
+    "name": "ESP32 /STATUS URL",
+    "func": "msg.url = \"http://\" + flow.get(\"esp_ip\") + \"/STATUS\";\nmsg.method = \"GET\";\nmsg.requestTimeout = 1500;\nmsg.payload = \"\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 350,
+    "y": 240,
+    "wires": [
+      [
+        "ps_stat_req"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_stat_req",
+    "type": "http request",
+    "name": "Read sensors",
+    "method": "use",
+    "ret": "txt",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 550,
+    "y": 240,
+    "wires": [
+      [
+        "ps_stat_check"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_stat_check",
+    "type": "function",
+    "name": "Error -> 502 / JSON",
+    "func": "if (typeof msg.statusCode !== \"number\" || msg.statusCode >= 400) {\n    msg.statusCode = 502;\n    msg.payload = {error: \"ESP32 not reachable\"};\n    node.status({fill: \"red\", shape: \"ring\", text: \"ESP32 offline\"});\n} else {\n    node.status({fill: \"green\", shape: \"dot\", text: msg.payload});\n}\nmsg.headers = {\"Content-Type\": \"application/json\"};\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 750,
+    "y": 240,
+    "wires": [
+      [
+        "ps_stat_res"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_stat_res",
+    "type": "http response",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 930,
+    "y": 240,
+    "wires": [],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_c_data",
+    "type": "comment",
+    "name": "Python se data -> dashboard pages",
+    "info": "",
+    "x": 190,
+    "y": 320,
+    "wires": [],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_poll",
+    "type": "inject",
+    "name": "Every 1s",
+    "props": [],
+    "repeat": "1",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "1",
+    "topic": "",
+    "x": 130,
+    "y": 360,
+    "wires": [
+      [
+        "ps_poll_url"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_poll_url",
+    "type": "function",
+    "name": "GET /api/status",
+    "func": "msg.url = flow.get(\"api\") + \"/api/status\";\nmsg.method = \"GET\";\nmsg.requestTimeout = 1500;\nmsg.payload = \"\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 300,
+    "y": 360,
+    "wires": [
+      [
+        "ps_poll_req"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_poll_req",
+    "type": "http request",
+    "name": "Python status",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 480,
+    "y": 360,
+    "wires": [
+      [
+        "ps_split"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_split",
+    "type": "function",
+    "name": "Status -> pages",
+    "func": "// Python ka live status: Dashboard + Settings ko har second, Charts ko har 10 second\nconst api = msg.payload;\nif (msg.statusCode !== 200 || typeof api !== \"object\") {\n    node.status({fill: \"red\", shape: \"ring\", text: \"main.py not running\"});\n    const offline = {topic: \"status\", payload: {offline: true}};\n    return [offline, offline, null];\n}\nnode.status({fill: \"green\", shape: \"dot\", text: api.time});\napi.esp_ip = flow.get(\"esp_ip\");\nconst out = {topic: \"status\", payload: api};\n\nlet charts = null;\nif (Date.now() - (context.get(\"charts_at\") || 0) >= 10000) {\n    context.set(\"charts_at\", Date.now());\n    charts = out;\n}\nreturn [out, out, charts];",
+    "outputs": 3,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 680,
+    "y": 360,
+    "wires": [
+      [
+        "ps_p_dash"
+      ],
+      [
+        "ps_p_settings"
+      ],
+      [
+        "ps_p_charts"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_hist_tick",
+    "type": "inject",
+    "name": "Every 1 min",
+    "props": [],
+    "repeat": "60",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "3",
+    "topic": "",
+    "x": 140,
+    "y": 420,
+    "wires": [
+      [
+        "ps_hist_url"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_hist_url",
+    "type": "function",
+    "name": "GET /api/history",
+    "func": "msg.url = flow.get(\"api\") + \"/api/history?hours=\" + (flow.get(\"range_h\") || 6);\nmsg.method = \"GET\";\nmsg.requestTimeout = 15000;\nmsg.payload = \"\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 330,
+    "y": 420,
+    "wires": [
+      [
+        "ps_hist_req"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_hist_req",
+    "type": "http request",
+    "name": "Python history",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 530,
+    "y": 420,
+    "wires": [
+      [
+        "ps_hist_ok"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_hist_ok",
+    "type": "function",
+    "name": "-> Charts",
+    "func": "if (msg.statusCode !== 200 || typeof msg.payload !== \"object\") return null;\nmsg.topic = \"history\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 700,
+    "y": 420,
+    "wires": [
+      [
+        "ps_p_charts"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_days_tick",
+    "type": "inject",
+    "name": "Every 1 min",
+    "props": [],
+    "repeat": "60",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "4",
+    "topic": "",
+    "x": 140,
+    "y": 480,
+    "wires": [
+      [
+        "ps_days_url"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_days_url",
+    "type": "function",
+    "name": "GET /api/days",
+    "func": "msg.url = flow.get(\"api\") + \"/api/days?n=7\";\nmsg.method = \"GET\";\nmsg.requestTimeout = 15000;\nmsg.payload = \"\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 320,
+    "y": 480,
+    "wires": [
+      [
+        "ps_days_req"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_days_req",
+    "type": "http request",
+    "name": "Python days",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 510,
+    "y": 480,
+    "wires": [
+      [
+        "ps_days_ok"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_days_ok",
+    "type": "function",
+    "name": "-> Charts",
+    "func": "if (msg.statusCode !== 200 || typeof msg.payload !== \"object\") return null;\nmsg.topic = \"days\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 700,
+    "y": 480,
+    "wires": [
+      [
+        "ps_p_charts"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_report_tick",
+    "type": "inject",
+    "name": "Every 1 min",
+    "props": [],
+    "repeat": "60",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "2",
+    "topic": "",
+    "x": 140,
+    "y": 540,
+    "wires": [
+      [
+        "ps_report_url"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_report_url",
+    "type": "function",
+    "name": "GET /api/report",
+    "func": "msg.url = flow.get(\"api\") + \"/api/report?month=\" + (flow.get(\"report_month\") || \"\");\nmsg.method = \"GET\";\nmsg.requestTimeout = 20000;\nmsg.payload = \"\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 330,
+    "y": 540,
+    "wires": [
+      [
+        "ps_report_req"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_report_req",
+    "type": "http request",
+    "name": "Python report",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 530,
+    "y": 540,
+    "wires": [
+      [
+        "ps_report_ok"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_report_ok",
+    "type": "function",
+    "name": "-> Report",
+    "func": "if (msg.statusCode !== 200 || typeof msg.payload !== \"object\") return null;\nmsg.topic = \"report\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 700,
+    "y": 540,
+    "wires": [
+      [
+        "ps_p_report"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_p_dash",
+    "type": "ui_template",
+    "group": "ps_g_dash",
+    "name": "Dashboard page",
+    "order": 1,
+    "width": "0",
+    "height": "0",
+    "format": "<div class=\"ps-wrap\">\n  <div class=\"ps-banner\" ng-if=\"s.offline\"><i class=\"fa fa-exclamation-triangle\"></i>\n    Python server (main.py) is not running. Start it to see live data.</div>\n\n  <div class=\"ps-kpis\" ng-if=\"s && !s.offline\">\n    <div class=\"ps-kpi\">\n      <div class=\"lbl\"><i class=\"fa fa-user\"></i> Room</div>\n      <div class=\"val\" ng-class=\"s.occupancy.occupied ? 'ps-green' : 'ps-grey'\">{{s.occupancy.occupied ? 'Occupied' : 'Empty'}}</div>\n      <div class=\"sub ps-amber\" ng-if=\"s.occupancy.countdown\">Lights off in {{s.occupancy.countdown}} s</div>\n      <div class=\"sub\" ng-if=\"!s.occupancy.countdown\">Camera {{s.occupancy.camera ? 'person' : 'clear'}} &middot; PIR {{s.occupancy.pir ? 'motion' : 'idle'}}</div>\n    </div>\n    <div class=\"ps-kpi\">\n      <div class=\"lbl\"><i class=\"fa fa-thermometer-half\"></i> Temperature</div>\n      <div class=\"val\">{{num(s.sensors.temp)}} <small>&deg;C</small></div>\n      <div class=\"sub\">Fan turns on at {{s.settings.fan_threshold}} &deg;C</div>\n    </div>\n    <div class=\"ps-kpi\">\n      <div class=\"lbl\"><i class=\"fa fa-tint\"></i> Humidity</div>\n      <div class=\"val\">{{num(s.sensors.humidity)}} <small>%</small></div>\n      <div class=\"sub\">DHT11 sensor</div>\n    </div>\n    <div class=\"ps-kpi\">\n      <div class=\"lbl\"><i class=\"fa fa-refresh\"></i> Fan</div>\n      <div class=\"val\" ng-class=\"s.devices.fan.state ? 'ps-green' : 'ps-grey'\">{{s.devices.fan.state ? 'Running' : 'Off'}}</div>\n      <div class=\"sub\">{{s.devices.fan.reason}}</div>\n    </div>\n    <div class=\"ps-kpi\">\n      <div class=\"lbl\"><i class=\"fa fa-bolt\"></i> Energy today</div>\n      <div class=\"val\">{{s.today.kwh | number:3}} <small>kWh</small></div>\n      <div class=\"sub\">Room occupied {{s.today.occupied_h}} h</div>\n    </div>\n    <div class=\"ps-kpi\">\n      <div class=\"lbl\"><i class=\"fa fa-inr\"></i> Bill today (est.)</div>\n      <div class=\"val\">&#8377; {{s.today.cost | number:2}}</div>\n      <div class=\"sub\">at &#8377; {{s.settings.rate}} per kWh</div>\n    </div>\n  </div>\n\n  <div class=\"ps-grid ps-main\" ng-if=\"s && !s.offline\">\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Live camera</span><span class=\"ps-muted\">YOLO11 person detection</span></div>\n      <div class=\"ps-cam\"><img ng-src=\"http://{{host}}:5000/video_feed\" alt=\"Camera feed not available\"></div>\n    </section>\n\n    <div class=\"ps-stack\">\n      <section class=\"ps-card\">\n        <div class=\"ps-card-h\"><span>Appliances</span><span class=\"ps-muted\">Auto = controlled by sensors</span></div>\n        <div class=\"ps-device\" ng-repeat=\"n in devs\">\n          <span class=\"ps-state\" ng-class=\"s.devices[n].state ? 'on' : 'off'\">{{s.devices[n].state ? 'ON' : 'OFF'}}</span>\n          <div class=\"info\">\n            <div class=\"name\">{{names[n]}} <span class=\"ps-muted\">{{s.devices[n].watts}} W</span></div>\n            <div class=\"ps-muted\">{{s.devices[n].reason}}</div>\n          </div>\n          <div class=\"ps-seg\">\n            <button ng-repeat=\"m in modes\" ng-class=\"{active: (pending[n] || s.devices[n].mode) === m}\"\n                    ng-click=\"setMode(n, m)\">{{labels[m]}}</button>\n          </div>\n        </div>\n      </section>\n\n      <section class=\"ps-card\">\n        <div class=\"ps-card-h\"><span>Today's usage</span><span class=\"ps-muted\">{{s.today.kwh | number:3}} kWh total</span></div>\n        <div class=\"ps-usage\" ng-repeat=\"n in devs\">\n          <div class=\"ps-usage-top\">\n            <span><i class=\"ps-swatch\" ng-style=\"{background: colors[n]}\"></i>{{names[n]}}</span>\n            <span class=\"ps-muted\">{{s.devices[n].on_hours}} h &middot; {{s.devices[n].kwh | number:3}} kWh</span>\n          </div>\n          <div class=\"ps-bar\"><div ng-style=\"{width: share(n) + '%', background: colors[n]}\"></div></div>\n        </div>\n        <div class=\"ps-chips\">\n          <span><i class=\"ps-dot\" ng-class=\"s.sensors.camera_ok ? 'ok' : 'bad'\"></i>Camera</span>\n          <span><i class=\"ps-dot\" ng-class=\"s.sensors.esp_online ? 'ok' : 'bad'\"></i>ESP32</span>\n          <span><i class=\"ps-dot\" ng-class=\"s.db_backend === 'firestore' ? 'ok' : 'bad'\"></i>{{s.db_backend === 'firestore' ? 'Firestore' : 'Local database'}}</span>\n          <span class=\"right\">Updated {{s.time}}</span>\n        </div>\n      </section>\n    </div>\n  </div>\n</div>\n<script>\n(function (scope) {\n    scope.host = window.location.hostname;\n    scope.devs = [\"light\", \"lamp\", \"fan\"];\n    scope.modes = [\"auto\", \"on\", \"off\"];\n    scope.names = {light: \"Light\", lamp: \"Lamp\", fan: \"Fan\"};\n    scope.labels = {auto: \"Auto\", on: \"On\", off: \"Off\"};\n    scope.colors = window.PS ? PS.devColors : {};\n    scope.pending = {};\n    scope.num = function (v) { return v === null || v === undefined ? \"--\" : v; };\n    scope.share = function (n) {\n        var t = scope.s.today.kwh;\n        return t > 0 ? Math.round(scope.s.devices[n].kwh / t * 100) : 0;\n    };\n    scope.setMode = function (device, mode) {\n        // Button turant highlight ho, Python confirm kare tab tak\n        scope.pending[device] = mode;\n        scope.send({topic: \"mode\", device: device, payload: mode});\n        setTimeout(function () { delete scope.pending[device]; }, 4000);\n    };\n    scope.$watch(\"msg\", function (msg) {\n        if (msg && msg.topic === \"status\") scope.s = msg.payload;\n    });\n})(scope);\n</script>",
+    "storeOutMessages": false,
+    "fwdInMessages": false,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 960,
+    "y": 360,
+    "wires": [
+      [
+        "ps_actions"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_p_settings",
+    "type": "ui_template",
+    "group": "ps_g_settings",
+    "name": "Settings page",
+    "order": 1,
+    "width": "0",
+    "height": "0",
+    "format": "<div class=\"ps-wrap\">\n  <div class=\"ps-head\"><h2>Settings</h2></div>\n  <div class=\"ps-banner\" ng-if=\"s.offline\" style=\"margin-top:14px\">Python server (main.py) is not running.</div>\n\n  <div class=\"ps-grid ps-cols-2\" style=\"align-items:start\">\n    <div class=\"ps-stack\">\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Fan control</span><span class=\"ps-muted\">temperature based</span></div>\n      <div style=\"display:flex; align-items:center; gap:8px; margin-bottom:12px\">\n        <span style=\"margin-right:auto\">Turn fan ON at</span>\n        <button class=\"ps-btn light\" ng-click=\"step(-0.5)\">&minus;</button>\n        <input class=\"ps-input\" type=\"number\" step=\"0.5\" min=\"10\" max=\"45\" ng-model=\"th\" ng-focus=\"editing = true\">\n        <button class=\"ps-btn light\" ng-click=\"step(0.5)\">+</button>\n        <span>&deg;C</span>\n        <button class=\"ps-btn\" ng-click=\"save()\">Save</button>\n      </div>\n      <table class=\"ps-kv\" ng-if=\"s.devices\">\n        <tr><td>Room temperature</td><td>{{s.sensors.temp === null ? 'no reading' : s.sensors.temp + ' °C'}}</td></tr>\n        <tr><td>Fan turns OFF below</td><td>{{s.settings.fan_threshold - s.settings.fan_hysteresis}} &deg;C</td></tr>\n        <tr><td>Fan mode</td><td>{{s.devices.fan.mode === 'auto' ? 'Auto' : 'Manual ' + s.devices.fan.mode.toUpperCase()}}</td></tr>\n        <tr><td>Fan now</td><td><span class=\"ps-state\" ng-class=\"s.devices.fan.state ? 'on' : 'off'\">{{s.devices.fan.state ? 'ON' : 'OFF'}}</span></td></tr>\n      </table>\n      <p class=\"ps-muted\" style=\"margin:12px 0 0\">\n        In Auto mode the fan starts when the room reaches the set temperature and stops\n        {{s.settings.fan_hysteresis}} &deg;C below it, so it does not switch on and off repeatedly.\n        <span ng-if=\"s.settings.fan_needs_occupancy\">The room must also be occupied.</span>\n      </p>\n    </section>\n\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Appearance</span><span class=\"ps-muted\">saved in this browser</span></div>\n      <div style=\"display:flex; align-items:center; justify-content:space-between\">\n        <span>Theme</span>\n        <div class=\"ps-seg\">\n          <button ng-class=\"{active: theme === 'light'}\" ng-click=\"setTheme('light')\"><i class=\"fa fa-sun-o\"></i> Light</button>\n          <button ng-class=\"{active: theme === 'dark'}\" ng-click=\"setTheme('dark')\"><i class=\"fa fa-moon-o\"></i> Dark</button>\n        </div>\n      </div>\n      <p class=\"ps-muted\" style=\"margin:12px 0 0\">You can also switch with the button in the top bar.</p>\n    </section>\n    </div>\n\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>System</span><span class=\"ps-muted\">{{s.time}}</span></div>\n      <table class=\"ps-kv\" ng-if=\"s.devices\">\n        <tr><td>Python server</td><td class=\"ps-green\">Running</td></tr>\n        <tr><td>Camera (YOLO11)</td><td ng-class=\"s.sensors.camera_ok ? 'ps-green' : 'ps-amber'\">{{s.sensors.camera_ok ? 'Online' : 'Offline'}}</td></tr>\n        <tr><td>ESP32 <span class=\"ps-muted\">{{s.esp_ip}}</span></td><td ng-class=\"s.sensors.esp_online ? 'ps-green' : 'ps-amber'\">{{s.sensors.esp_online ? 'Online' : 'Offline'}}</td></tr>\n        <tr><td>Database</td><td>{{s.db_backend === 'firestore' ? 'Firebase Firestore' : 'Local file'}}</td></tr>\n        <tr><td>Tariff</td><td>&#8377; {{s.settings.rate}} / kWh</td></tr>\n        <tr><td>Ratings</td><td>Light {{s.devices.light.watts}} W &middot; Lamp {{s.devices.lamp.watts}} W &middot; Fan {{s.devices.fan.watts}} W</td></tr>\n        <tr><td>Lights off after room empty</td><td>{{s.settings.timeout}} s</td></tr>\n      </table>\n    </section>\n  </div>\n</div>\n<script>\n(function (scope) {\n    scope.theme = PS.isDark() ? \"dark\" : \"light\";\n    scope.setTheme = function (t) { scope.theme = t; PS.setTheme(t); };\n    window.addEventListener(\"ps-theme\", function () {\n        scope.$evalAsync(function () { scope.theme = PS.isDark() ? \"dark\" : \"light\"; });\n    });\n    scope.step = function (d) { scope.editing = true; scope.th = Math.round(((Number(scope.th) || 0) + d) * 2) / 2; };\n    scope.save = function () {\n        scope.editing = false;\n        scope.send({topic: \"threshold\", payload: Number(scope.th)});\n    };\n    scope.$watch(\"msg\", function (msg) {\n        if (!msg || msg.topic !== \"status\") return;\n        scope.s = msg.payload;\n        // Typing ke beech value reset na ho\n        if (!scope.editing && scope.s.settings) scope.th = scope.s.settings.fan_threshold;\n    });\n})(scope);\n</script>",
+    "storeOutMessages": false,
+    "fwdInMessages": false,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 960,
+    "y": 400,
+    "wires": [
+      [
+        "ps_actions"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_p_charts",
+    "type": "ui_template",
+    "group": "ps_g_charts",
+    "name": "Charts page",
+    "order": 1,
+    "width": "0",
+    "height": "0",
+    "format": "<div class=\"ps-wrap\">\n  <div class=\"ps-head\">\n    <h2>Charts</h2>\n    <span class=\"ps-muted\">Sensor history is logged once a minute</span>\n    <div class=\"ps-seg\">\n      <button ng-repeat=\"r in ranges\" ng-class=\"{active: range === r.h}\" ng-click=\"setRange(r.h)\">{{r.label}}</button>\n    </div>\n  </div>\n\n  <div class=\"ps-grid ps-wide-left\">\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Temperature</span><span class=\"ps-muted\">dashed line = fan threshold</span></div>\n      <div class=\"ps-chart tall\"><canvas id=\"ps-c-temp\"></canvas></div>\n    </section>\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Energy today</span><span class=\"ps-muted\">{{todayTotal | number:3}} kWh</span></div>\n      <div class=\"ps-chart short\"><canvas id=\"ps-c-share\"></canvas></div>\n      <table class=\"ps-legend\">\n        <tr ng-repeat=\"n in devs\">\n          <td><i class=\"ps-swatch\" ng-style=\"{background: colors[n]}\"></i>{{names[n]}}</td>\n          <td class=\"num\">{{today[n] | number:3}} kWh</td>\n          <td class=\"num ps-muted\">{{todayTotal > 0 ? (today[n] / todayTotal * 100 | number:0) : 0}}%</td>\n        </tr>\n      </table>\n    </section>\n  </div>\n\n  <div class=\"ps-grid ps-cols-2\">\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Humidity</span><span class=\"ps-muted\">%</span></div>\n      <div class=\"ps-chart\"><canvas id=\"ps-c-hum\"></canvas></div>\n    </section>\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Room occupancy</span><span class=\"ps-muted\">camera or PIR</span></div>\n      <div class=\"ps-chart\"><canvas id=\"ps-c-occ\"></canvas></div>\n    </section>\n  </div>\n\n  <section class=\"ps-card\" style=\"margin-top:14px\">\n    <div class=\"ps-card-h\"><span>Last 7 days</span><span class=\"ps-muted\">energy per appliance (kWh)</span></div>\n    <div class=\"ps-chart\"><canvas id=\"ps-c-week\"></canvas></div>\n  </section>\n</div>\n<script>\n(function (scope) {\n    scope.ranges = [{h: 1, label: \"1 hour\"}, {h: 6, label: \"6 hours\"}, {h: 24, label: \"24 hours\"}];\n    scope.range = 6;\n    scope.devs = [\"light\", \"lamp\", \"fan\"];\n    scope.names = {light: \"Light\", lamp: \"Lamp\", fan: \"Fan\"};\n    scope.colors = PS.devColors;\n    scope.today = {light: 0, lamp: 0, fan: 0};\n    scope.todayTotal = 0;\n    var c = {};\n    var el = function (id) { return document.getElementById(id); };\n    var line = function (label, color, extra) {\n        return Object.assign({label: label, data: [], borderColor: color, backgroundColor: color + \"1a\", fill: true,\n                              pointRadius: 0, borderWidth: 2, lineTension: 0.25}, extra || {});\n    };\n\n    function init() {\n        if (c.temp || !el(\"ps-c-temp\")) return;\n        c.temp = PS.make(el(\"ps-c-temp\"), {type: \"line\",\n            data: {datasets: [line(\"Temperature (°C)\", \"#d9534f\"),\n                              line(\"Fan threshold\", \"#8b95a3\", {fill: false, borderDash: [6, 4], borderWidth: 1.5})]},\n            options: {scales: {xAxes: [PS.timeAxis()], yAxes: [{ticks: {maxTicksLimit: 6}}]}}});\n        c.hum = PS.make(el(\"ps-c-hum\"), {type: \"line\", data: {datasets: [line(\"Humidity (%)\", \"#2c7fb8\")]},\n            options: {scales: {xAxes: [PS.timeAxis()], yAxes: [{ticks: {maxTicksLimit: 6}}]}}});\n        c.occ = PS.make(el(\"ps-c-occ\"), {type: \"line\",\n            data: {datasets: [line(\"Occupied\", \"#16a34a\", {steppedLine: true, lineTension: 0})]},\n            options: {scales: {xAxes: [PS.timeAxis()], yAxes: [{ticks: {min: 0, max: 1, stepSize: 1,\n                callback: function (v) { return v === 1 ? \"Occupied\" : v === 0 ? \"Empty\" : \"\"; }}}]}}});\n        c.share = PS.make(el(\"ps-c-share\"), {type: \"doughnut\",\n            data: {labels: [\"Light\", \"Lamp\", \"Fan\"], datasets: [{data: [0, 0, 0],\n                   backgroundColor: [PS.devColors.light, PS.devColors.lamp, PS.devColors.fan]}]},\n            options: {cutoutPercentage: 62}});\n        c.week = PS.make(el(\"ps-c-week\"), {type: \"bar\", data: {labels: [], datasets: scope.devs.map(function (n) {\n                return {label: scope.names[n], data: [], backgroundColor: PS.devColors[n], barPercentage: 0.55};\n            })},\n            options: {legend: {display: true, position: \"bottom\"},\n                      scales: {xAxes: [{stacked: true, gridLines: {display: false}}],\n                               yAxes: [{stacked: true, ticks: {beginAtZero: true, maxTicksLimit: 6}}]}}});\n    }\n\n    function showHistory(h) {\n        var pts = h.points, now = Date.now(), from = now - h.hours * 3600 * 1000;\n        var xy = function (key) {\n            return pts.filter(function (p) { return p[key] !== null && p[key] !== undefined; })\n                      .map(function (p) { return {x: new Date(p.t), y: p[key]}; });\n        };\n        c.temp.data.datasets[0].data = xy(\"temp\");\n        c.temp.data.datasets[1].data = [{x: new Date(from), y: h.fan_threshold}, {x: new Date(now), y: h.fan_threshold}];\n        c.hum.data.datasets[0].data = xy(\"humidity\");\n        c.occ.data.datasets[0].data = pts.map(function (p) { return {x: new Date(p.t), y: p.occupied ? 1 : 0}; });\n        [c.temp, c.hum, c.occ].forEach(function (ch) {\n            ch.options.scales.xAxes[0].ticks.min = new Date(from);\n            ch.options.scales.xAxes[0].ticks.max = new Date(now);\n            ch.update(0);\n        });\n    }\n    function showDays(r) {\n        c.week.data.labels = r.days.map(function (d) { return moment(d.date).format(\"ddd DD MMM\"); });\n        scope.devs.forEach(function (n, i) { c.week.data.datasets[i].data = r.days.map(function (d) { return d[n + \"_kwh\"]; }); });\n        c.week.update(0);\n    }\n    function showToday(s) {\n        scope.devs.forEach(function (n) { scope.today[n] = s.devices[n].kwh; });\n        scope.todayTotal = s.today.kwh;\n        c.share.data.datasets[0].data = scope.devs.map(function (n) { return s.devices[n].kwh; });\n        c.share.update(0);\n    }\n\n    scope.setRange = function (h) {\n        scope.range = h;\n        scope.send({topic: \"range\", payload: h});\n    };\n    scope.$watch(\"msg\", function (msg) {\n        if (!msg || !msg.payload || msg.payload.offline) return;\n        init();\n        if (!c.temp) return;\n        if (msg.topic === \"history\") showHistory(msg.payload);\n        if (msg.topic === \"days\") showDays(msg.payload);\n        if (msg.topic === \"status\") showToday(msg.payload);\n    });\n    setTimeout(function () { init(); scope.send({topic: \"range\", payload: scope.range}); }, 50);\n    scope.$on(\"$destroy\", function () { Object.keys(c).forEach(function (k) { PS.forget(c[k]); }); });\n})(scope);\n</script>",
+    "storeOutMessages": false,
+    "fwdInMessages": false,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 960,
+    "y": 440,
+    "wires": [
+      [
+        "ps_actions"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_p_report",
+    "type": "ui_template",
+    "group": "ps_g_report",
+    "name": "Report page",
+    "order": 1,
+    "width": "0",
+    "height": "0",
+    "format": "<div class=\"ps-wrap\">\n  <div class=\"ps-head\">\n    <h2>Monthly report</h2>\n    <select class=\"ps-select\" ng-model=\"month\" ng-change=\"pick()\" ng-options=\"m.value as m.label for m in months\"></select>\n    <a class=\"ps-btn\" ng-href=\"http://{{host}}:5000/report/pdf?month={{month}}\" target=\"_blank\">\n      <i class=\"fa fa-download\"></i> Download PDF</a>\n  </div>\n\n  <div class=\"ps-kpis\" style=\"margin-top:14px\">\n    <div class=\"ps-kpi\"><div class=\"lbl\"><i class=\"fa fa-bolt\"></i> Energy</div>\n      <div class=\"val\">{{r.totals.kwh | number:2}} <small>kWh</small></div><div class=\"sub\">{{r.days.length}} day(s) recorded</div></div>\n    <div class=\"ps-kpi\"><div class=\"lbl\"><i class=\"fa fa-inr\"></i> Bill</div>\n      <div class=\"val\">&#8377; {{r.totals.cost | number:2}}</div><div class=\"sub\">at &#8377; {{r.rate_per_kwh}} per kWh</div></div>\n    <div class=\"ps-kpi\"><div class=\"lbl\"><i class=\"fa fa-calendar\"></i> Average per day</div>\n      <div class=\"val\">&#8377; {{r.avg_daily_cost | number:2}}</div><div class=\"sub\">over recorded days</div></div>\n    <div class=\"ps-kpi\"><div class=\"lbl\"><i class=\"fa fa-line-chart\"></i> Projected for month</div>\n      <div class=\"val\">&#8377; {{r.projected_month_cost | number:2}}</div><div class=\"sub\">if usage stays the same</div></div>\n    <div class=\"ps-kpi\"><div class=\"lbl\"><i class=\"fa fa-user\"></i> Room occupied</div>\n      <div class=\"val\">{{r.totals.occupied_h | number:1}} <small>h</small></div><div class=\"sub\">this month</div></div>\n  </div>\n\n  <div class=\"ps-grid ps-wide-left\">\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Daily energy</span><span class=\"ps-muted\">kWh per appliance</span></div>\n      <div class=\"ps-chart tall\"><canvas id=\"ps-c-month\"></canvas></div>\n    </section>\n    <section class=\"ps-card\">\n      <div class=\"ps-card-h\"><span>Appliance share</span><span class=\"ps-muted\">{{r.totals.kwh | number:2}} kWh</span></div>\n      <div class=\"ps-chart short\"><canvas id=\"ps-c-mshare\"></canvas></div>\n      <table class=\"ps-legend\">\n        <tr ng-repeat=\"n in devs\">\n          <td><i class=\"ps-swatch\" ng-style=\"{background: colors[n]}\"></i>{{names[n]}}</td>\n          <td class=\"num\">{{r.totals[n + '_h'] | number:1}} h</td>\n          <td class=\"num\">{{r.totals[n + '_kwh'] | number:2}} kWh</td>\n          <td class=\"num ps-muted\">&#8377; {{r.totals[n + '_kwh'] * r.rate_per_kwh | number:2}}</td>\n        </tr>\n      </table>\n    </section>\n  </div>\n\n  <section class=\"ps-card\" style=\"margin-top:14px\">\n    <div class=\"ps-card-h\"><span>Day-wise details</span><span class=\"ps-muted\">{{monthLabel}}</span></div>\n    <div style=\"max-height:460px; overflow-y:auto\">\n      <table class=\"ps-table\">\n        <tr><th>Date</th><th>Light (h)</th><th>Lamp (h)</th><th>Fan (h)</th><th>Occupied (h)</th>\n            <th>Avg temp</th><th>Energy (kWh)</th><th>Bill (&#8377;)</th></tr>\n        <tr ng-repeat=\"d in r.days\">\n          <td>{{fmtDate(d.date)}}</td><td>{{d.light_h | number:2}}</td><td>{{d.lamp_h | number:2}}</td><td>{{d.fan_h | number:2}}</td>\n          <td>{{d.occupied_h | number:2}}</td><td>{{d.temp_avg === null ? '-' : d.temp_avg + ' °C'}}</td>\n          <td>{{d.kwh | number:3}}</td><td>{{d.cost | number:2}}</td>\n        </tr>\n        <tr class=\"total\" ng-if=\"r.days.length\">\n          <td>Total</td><td>{{r.totals.light_h | number:2}}</td><td>{{r.totals.lamp_h | number:2}}</td><td>{{r.totals.fan_h | number:2}}</td>\n          <td>{{r.totals.occupied_h | number:2}}</td><td></td><td>{{r.totals.kwh | number:3}}</td><td>{{r.totals.cost | number:2}}</td>\n        </tr>\n      </table>\n      <div class=\"ps-muted\" ng-if=\"r && !r.days.length\" style=\"padding:14px 0\">No data recorded for this month.</div>\n    </div>\n  </section>\n</div>\n<script>\n(function (scope) {\n    scope.host = window.location.hostname;\n    scope.devs = [\"light\", \"lamp\", \"fan\"];\n    scope.names = {light: \"Light\", lamp: \"Lamp\", fan: \"Fan\"};\n    scope.colors = PS.devColors;\n    scope.months = [];\n    for (var i = 0; i < 12; i++) {\n        var m = moment().startOf(\"month\").subtract(i, \"months\");\n        scope.months.push({value: m.format(\"YYYY-MM\"), label: m.format(\"MMMM YYYY\")});\n    }\n    scope.month = scope.months[0].value;\n    scope.monthLabel = scope.months[0].label;\n    scope.fmtDate = function (d) { return moment(d).format(\"ddd, DD MMM\"); };\n    var c = {};\n    var el = function (id) { return document.getElementById(id); };\n\n    function init() {\n        if (c.month || !el(\"ps-c-month\")) return;\n        c.month = PS.make(el(\"ps-c-month\"), {type: \"bar\", data: {labels: [], datasets: scope.devs.map(function (n) {\n                return {label: scope.names[n], data: [], backgroundColor: PS.devColors[n], barPercentage: 0.7};\n            })},\n            options: {legend: {display: true, position: \"bottom\"},\n                      scales: {xAxes: [{stacked: true, gridLines: {display: false}}],\n                               yAxes: [{stacked: true, ticks: {beginAtZero: true, maxTicksLimit: 6}}]}}});\n        c.share = PS.make(el(\"ps-c-mshare\"), {type: \"doughnut\",\n            data: {labels: [\"Light\", \"Lamp\", \"Fan\"], datasets: [{data: [0, 0, 0],\n                   backgroundColor: [PS.devColors.light, PS.devColors.lamp, PS.devColors.fan]}]},\n            options: {cutoutPercentage: 62}});\n    }\n    function show(r) {\n        if (r.month !== scope.month) return;  // purane month ka jawab\n        scope.r = r;\n        c.month.data.labels = r.days.map(function (d) { return d.date.slice(-2); });\n        scope.devs.forEach(function (n, i) { c.month.data.datasets[i].data = r.days.map(function (d) { return d[n + \"_kwh\"]; }); });\n        c.month.update(0);\n        c.share.data.datasets[0].data = scope.devs.map(function (n) { return r.totals[n + \"_kwh\"]; });\n        c.share.update(0);\n    }\n    scope.pick = function () {\n        scope.monthLabel = scope.months.filter(function (m) { return m.value === scope.month; })[0].label;\n        scope.send({topic: \"month\", payload: scope.month});\n    };\n    scope.$watch(\"msg\", function (msg) {\n        if (!msg || msg.topic !== \"report\") return;\n        init();\n        if (c.month) show(msg.payload);\n    });\n    setTimeout(function () { init(); scope.send({topic: \"month\", payload: scope.month}); }, 50);\n    scope.$on(\"$destroy\", function () { Object.keys(c).forEach(function (k) { PS.forget(c[k]); }); });\n})(scope);\n</script>",
+    "storeOutMessages": false,
+    "fwdInMessages": false,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 960,
+    "y": 540,
+    "wires": [
+      [
+        "ps_actions"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_c_actions",
+    "type": "comment",
+    "name": "Dashboard buttons -> Python",
+    "info": "",
+    "x": 180,
+    "y": 640,
+    "wires": [],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_actions",
+    "type": "function",
+    "name": "Dashboard actions",
+    "func": "// Pages se aaye actions: mode / threshold / chart range / report month\nconst post = (path, body) => ({url: flow.get(\"api\") + path, method: \"POST\", requestTimeout: 5000,\n                               headers: {\"Content-Type\": \"application/json\"}, payload: body});\nswitch (msg.topic) {\n    case \"mode\":\n        return [post(\"/api/device/\" + msg.device, {mode: msg.payload}), null, null, null];\n    case \"threshold\":\n        return [post(\"/api/settings\", {fan_threshold: msg.payload}), null, null, null];\n    case \"range\":\n        flow.set(\"range_h\", Number(msg.payload) || 6);\n        return [null, {}, {}, null];\n    case \"month\":\n        flow.set(\"report_month\", msg.payload);\n        return [null, null, null, {}];\n}\nreturn null;",
+    "outputs": 4,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1200,
+    "y": 680,
+    "wires": [
+      [
+        "ps_ctrl_post"
+      ],
+      [
+        "ps_hist_url"
+      ],
+      [
+        "ps_days_url"
+      ],
+      [
+        "ps_report_url"
+      ]
+    ],
+    "z": "ps_tab"
+  },
+  {
+    "id": "ps_ctrl_post",
+    "type": "http request",
+    "name": "POST to Python",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1420,
+    "y": 660,
+    "wires": [
+      []
+    ],
+    "z": "ps_tab"
+  }
+]

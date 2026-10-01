@@ -1,0 +1,5 @@
+venv/
+__pycache__/
+data/
+# Firebase private key - kabhi commit mat karna
+serviceAccountKey.json
